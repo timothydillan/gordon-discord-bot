@@ -27,7 +27,7 @@ client.on('ready', () => {
             url: 'https://www.gordonramsay.com/'
         }
     });
-    await client.channels.cache.get('574454691811819521').send("Gordon Ramsay bot ready. To retrieve an image of Gordon, do `g!yoman`.");
+    sendMessage();
 });
 
 client.on('message', (msg) => {
@@ -67,6 +67,10 @@ async function sendImage(cnl = null) {
     }
     console.log('Results:', results);
 };
+
+async function sendMessage() {
+    await client.channels.cache.get('574454691811819521').send("Gordon Ramsay bot ready. To retrieve an image of Gordon, do `g!yoman`.");
+}
 
 // Initiate our client with our bot.
 client.login(process.env.BOT_TOKEN);
