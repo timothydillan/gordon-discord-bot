@@ -15,9 +15,6 @@ require('dotenv').config();
 // Create new discord client instance.
 const client = new Discord.Client();
 
-// Find the general channel.
-const channel = client.channels.cache.find(channel => channel.name === "general")
-
 // once our client is ready,
 client.on('ready', () => {
     console.log('DAILY GORDON RAMSAY is ready');
@@ -26,25 +23,29 @@ client.on('ready', () => {
     client.user.setPresence({
         activity: {
             name: "Daily Gordon Ramsay",
-            type: 'YOMAN',
+            type: 'WATCHING',
             url: 'https://www.gordonramsay.com/'
         }
     });
+    await client.channels.cache.get('574454691811819521').send("Gordon Ramsay bot ready. To retrieve an image of Gordon, do `g!yoman`.");
 });
 
 client.on('message', (msg) => {
     // If a message was sent, and it contained g!yoman,
     if (msg.content === 'g!yoman') {
         // send a message
-        msg.channel.send("YOOOOOMAN GORDON RAMSAY BOT READY, HERE'S A GORDON RAMSAY IMAGE");
+        msg.channel.send("Gordon Ramsay bot at your service. Will send an image of our one and only in a few seconds.");
         sendImage(msg.channel);
+    } else if (msg.content === 'g!help') {
+        msg.channel.send("To retrieve an image of Gordon, do `g!yoman`.");
     }
 });
 
 // Sends a gordon ramsay image every 30 minutes.
 client.setInterval(sendImage, 1800000);
 
-async function sendImage(cnl = channel) {
+async function sendImage(cnl = null) {
+    console.log('sendImage function triggered!');
     // Get 150 images of gordon ramsay
     const results = await google.scrape('gordon ramsay', 150);
     // Get 1 random image from the results
@@ -59,8 +60,12 @@ async function sendImage(cnl = channel) {
         .setTimestamp()
         .setFooter('SENT WITH LOVE BY GORDON', results[random].url);
     // Send the embed to the same channel as the message
-    cnl.send(embed);
-    console.log('results', results);
+    if (cnl === null) {
+        await client.channels.cache.get('574454691811819521').send(embed);
+    } else {
+        await cnl.send(embed);
+    }
+    console.log('Results:', results);
 };
 
 // Initiate our client with our bot.
