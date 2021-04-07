@@ -58,10 +58,10 @@ async function sendImage(cnl = null) {
         // Set the main content of the embed
         .setImage(results[random].url)
         .setTimestamp()
-        .setFooter('SENT WITH LOVE BY GORDON', results[random].url);
+        .setFooter('SENT WITH LOVE FROM GORDON', results[random].url);
     // Send the embed to the same channel as the message
     if (cnl === null) {
-        await client.channels.cache.get('574454691811819521').send(embed);
+        await client.channels.cache.get('829266401378041886').send(embed);
     } else {
         await cnl.send(embed);
     }
