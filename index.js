@@ -4,13 +4,9 @@ var Scraper = require('images-scraper');
 
 const google = new Scraper({
     puppeteer: {
-        headless: false,
-        safe: false,
-        args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox'
-        ]
-    },
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    }
 });
 
 // Load .env configurations.
