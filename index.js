@@ -5,7 +5,11 @@ var Scraper = require('images-scraper');
 const google = new Scraper({
     puppeteer: {
         headless: false,
-        safe: false
+        safe: false,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ]
     },
 });
 
@@ -45,7 +49,9 @@ client.on('message', (msg) => {
 client.setInterval(sendImage, 1800000);
 
 async function sendImage(cnl = channel) {
+    // Get 150 images of gordon ramsay
     const results = await google.scrape('gordon ramsay', 150);
+    // Get 1 random image from the results
     const random = Math.floor(Math.random() * results.length - 1);
     const embed = new Discord.MessageEmbed()
         // Set the title of the field
